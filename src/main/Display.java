@@ -1,10 +1,17 @@
 package main;
 
 import java.awt.Canvas;
+import java.awt.Graphics;
+import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
 import main.graphics.Render;
+import main.graphics.Screen;
+import java.awt.image.DataBufferInt;
+import java.awt.image.RenderedImage;
+import java.awt.image.DataBuffer;
 
 public class Display extends Canvas implements Runnable{
 	public static final int WIDTH = 800;
@@ -13,10 +20,15 @@ public class Display extends Canvas implements Runnable{
 	
 	private Thread thread;
 	private boolean running = false;
-	private Render render;
+	//private Render render;
+	private Screen screen;
+	private BufferedImage img;
+	private int[] pixels;
 	
 	public Display() {
-		render = new Render(WIDTH,HEIGHT);
+		screen = new Screen(WIDTH,HEIGHT);
+		img = new BufferedImage(WIDTH,HEIGHT, BufferedImage.TYPE_INT_RGB);
+		pixels = ((DataBufferInt) img.getRaster().getDataBuffer()).getData();
 	}
 	
 	public void start() {
@@ -53,7 +65,20 @@ public class Display extends Canvas implements Runnable{
 	
 	private void render() {
 		// TODO Auto-generated method stub
+		BufferStrategy buffStrat = this.getBufferStrategy();
+		if(buffStrat == null) {
+			createBufferStrategy(3);
+			return;
+		}
+		screen.render();
 		
+		for(int i =0 ; i<WIDTH*HEIGHT; i++) {
+			pixels[i] = screen.pixels[i];
+		}
+		Graphics g = buffStrat.getDrawGraphics();
+		g.drawImage(img, 0, 0, WIDTH, HEIGHT, null);
+		g.dispose();
+		buffStrat.show();
 	}
 
 	private void tick() {
