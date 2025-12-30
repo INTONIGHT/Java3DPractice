@@ -4,6 +4,8 @@ import java.awt.Canvas;
 
 import javax.swing.JFrame;
 
+import main.graphics.Render;
+
 public class Display extends Canvas implements Runnable{
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 600;
@@ -11,6 +13,11 @@ public class Display extends Canvas implements Runnable{
 	
 	private Thread thread;
 	private boolean running = false;
+	private Render render;
+	
+	public Display() {
+		render = new Render(WIDTH,HEIGHT);
+	}
 	
 	public void start() {
 		if(running) {
@@ -36,11 +43,24 @@ public class Display extends Canvas implements Runnable{
 			}
 		}
 	}
-	
+	//main loop
 	public void run() {
-		
+		while(running) {
+			tick();
+			render();
+		}
 	}
 	
+	private void render() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void tick() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	//Handles the display and main loop
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -55,6 +75,8 @@ public class Display extends Canvas implements Runnable{
 		frame.setLocationRelativeTo(null);
 		
 		frame.setVisible(true);
+		
+		game.start();
 		
 		
 	}
