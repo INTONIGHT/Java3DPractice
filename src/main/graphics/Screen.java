@@ -18,7 +18,9 @@ public class Screen extends Render{
 	}
 	
 	public void render() {
-		draw(test,0,0);
-	}
+		int anim = (int) (Math.sin(System.currentTimeMillis()%2000.0/2000* Math.PI *2) * 200);
+		int anim2 = (int) (Math.cos(System.currentTimeMillis()%2000.0/2000* Math.PI *2) * 200);
+		draw(test, (width - 256)/2 + anim, (height - 256)/2 + anim2);
+	} 
 
 }
