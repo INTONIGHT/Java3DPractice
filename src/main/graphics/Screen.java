@@ -26,7 +26,8 @@ public class Screen extends Render{
 		//if you increase this loop it will start to fry your machine
 		for(int i =0; i<100;i++) {
 			//if you adjust the part after the % you can speed it up or slow it down bigger numbers will slow it down
-			
+			//if you want you can multiply i with some sort of constant to avoid lag issues on the i<100 part if you increase that.
+			//so if you made it  i*4 will give us better performance than changing the constraints of the loop
 			int anim = (int) (Math.sin((System.currentTimeMillis() + i) % 2000.0/2000* Math.PI *2) * 200);
 			int anim2 = (int) (Math.cos((System.currentTimeMillis() + i) % 2000.0/2000* Math.PI *2) * 200);
 			draw(test, (width - 256)/2 + anim, (height - 256)/2 + anim2);
