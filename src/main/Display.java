@@ -1,6 +1,7 @@
 package main;
 
 import java.awt.Canvas;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -27,6 +28,10 @@ public class Display extends Canvas implements Runnable{
 	private Game game;
 	
 	public Display() {
+		Dimension size = new Dimension(WIDTH,HEIGHT);
+		setPreferredSize(size);
+		setMinimumSize(size);
+		setMaximumSize(size);
 		screen = new Screen(WIDTH,HEIGHT);
 		img = new BufferedImage(WIDTH,HEIGHT, BufferedImage.TYPE_INT_RGB);
 		pixels = ((DataBufferInt) img.getRaster().getDataBuffer()).getData();
@@ -126,7 +131,7 @@ public class Display extends Canvas implements Runnable{
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setTitle(TITLE);
-		frame.setSize(WIDTH, HEIGHT);
+		//frame.setSize(WIDTH, HEIGHT);
 		frame.setLocationRelativeTo(null);
 		
 		frame.setVisible(true);
