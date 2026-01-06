@@ -24,11 +24,13 @@ public class Display extends Canvas implements Runnable{
 	private Screen screen;
 	private BufferedImage img;
 	private int[] pixels;
+	private Game game;
 	
 	public Display() {
 		screen = new Screen(WIDTH,HEIGHT);
 		img = new BufferedImage(WIDTH,HEIGHT, BufferedImage.TYPE_INT_RGB);
 		pixels = ((DataBufferInt) img.getRaster().getDataBuffer()).getData();
+		game = new Game();
 	}
 	
 	public void start() {
@@ -98,7 +100,7 @@ public class Display extends Canvas implements Runnable{
 			createBufferStrategy(3);
 			return;
 		}
-		screen.render();
+		screen.render(game);
 		
 		for(int i =0 ; i<WIDTH*HEIGHT; i++) {
 			pixels[i] = screen.pixels[i];
@@ -111,7 +113,7 @@ public class Display extends Canvas implements Runnable{
 
 	private void tick() {
 		// TODO Auto-generated method stub
-		
+		game.tick();
 	}
 
 	//Handles the display and main loop
