@@ -12,11 +12,13 @@ public class Render3D extends Render{
 			double yDepth = y - height/2;
 			double z = 100.0 /yDepth;
 			
-			for(int x =0; x<width;x++) {
+			for(int x =0; x<width ;x++) {
 				double xDepth = x - width / 2;
 				xDepth *= z;
-				int intValXDepth = (int) xDepth;
-				pixels[x+y*width] = intValXDepth;
+				//using a bitwise operator
+				//can also use << or >> for some interesting effects
+				int intValXDepth = (int) xDepth & 5;
+				pixels[x + y * width] = intValXDepth * 128;
 			}
 		}
 	}
