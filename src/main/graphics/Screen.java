@@ -7,12 +7,14 @@ import main.Game;
 public class Screen extends Render{
 	
 	public Render test;
+	private Render3D render;
 
 	public Screen(int width, int height) {
 		super(width, height);
 		
 		Random random = new Random();
 		// TODO Auto-generated constructor stub
+		render = new Render3D(width,height);
 		test = new Render(256,256);
 		for(int i =0;i< 256*256;i++) {
 			test.pixels[i] = random.nextInt();
@@ -32,8 +34,10 @@ public class Screen extends Render{
 			//so if you made it  i*4 will give us better performance than changing the constraints of the loop
 			int anim = (int) (Math.sin((game.time + i) % 1000.0 / 1000* Math.PI *2) * 200);
 			int anim2 = (int) (Math.cos((game.time + i) % 1000.0 / 1000* Math.PI *2) * 200);
-			draw(test, (width - 256)/2 + anim, (height - 256)/2 + anim2);
+			//draw(test, (width - 256)/2 + anim, (height - 256)/2 + anim2);
 		}
+		render.floor();
+		draw(render,0,0);
 		
 	} 
 
