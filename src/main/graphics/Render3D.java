@@ -9,16 +9,17 @@ public class Render3D extends Render{
 	
 	public void floor() {
 		for(int y = 0; y<height;y++) {
-			double yDepth = y - height/2;
-			double z = 100.0 /yDepth;
+			double ceiling = (y - height/2.0) / height;
+			double z = 8 /ceiling;
 			
 			for(int x =0; x<width ;x++) {
-				double xDepth = x - width / 2;
+				double xDepth = (x - width / 2.0) / height;
 				xDepth *= z;
 				//using a bitwise operator
 				//can also use << or >> for some interesting effects
-				int intValXDepth = (int) xDepth & 5;
-				pixels[x + y * width] = intValXDepth * 128;
+				int intValXDepth = (int) xDepth & 15;
+				int intValZ = (int) z & 15;
+				pixels[x + y * width] = (intValXDepth * 16) | (intValZ * 16) << 8;
 			}
 		}
 	}
