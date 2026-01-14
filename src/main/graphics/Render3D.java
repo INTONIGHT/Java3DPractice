@@ -17,7 +17,8 @@ public class Render3D extends Render{
 		//allows us to manipulate the floor and ceiling seperately
 		double floorPosition = 8;
 		double ceilingPosition = 8;
-		
+		double forward = game.time / 5.0;
+		double rightMovement = game.time / 5.0;
 		
 		for(int y = 0; y<height;y++) {
 			double ceiling = (y - height/2.0) / height;
@@ -38,8 +39,8 @@ public class Render3D extends Render{
 				//using a bitwise operator
 				//can also use << or >> for some interesting effects
 				//subtracting time can get moroe diagonal movemnt
-				int intValXDepth = (int) (xDepth * cosine + z * sine);
-				int intValZ = (int) (z * cosine - xDepth * sine);
+				int intValXDepth = (int) (xDepth * cosine + z * sine + rightMovement);
+				int intValZ = (int) (z * cosine - xDepth * sine + forward);
 				pixels[x + y * width] = ((intValXDepth & 15)* 16 ) | ((intValZ & 15)* 16) << 8;
 			}
 		}
