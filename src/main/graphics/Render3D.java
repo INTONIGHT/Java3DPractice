@@ -14,14 +14,19 @@ public class Render3D extends Render{
 		double rotation = game.time / 100.0;
 		double cosine = Math.cos(rotation);
 		double sine = Math.sin(rotation);
+		//allows us to manipulate the floor and ceiling seperately
+		double floorPosition = 8;
+		double ceilingPosition = 8;
 		
 		
 		for(int y = 0; y<height;y++) {
 			double ceiling = (y - height/2.0) / height;
+			
+			double z = floorPosition /ceiling;
 			if(ceiling < 0) {
-				ceiling = -ceiling;
+				z = ceilingPosition / -ceiling;
 			}
-			double z = 8 /ceiling;
+			
 			//this lets you have a change to whats being rendered but it will look wonky if
 			//you increment it a lot this is machine dependent so a powerful computer will need smaller increments potentially
 		
