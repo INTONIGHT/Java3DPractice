@@ -11,6 +11,11 @@ public class Render3D extends Render{
 	
 	
 	public void floor(Game game) {
+		double rotation = game.time / 100.0;
+		double cosine = Math.cos(rotation);
+		double sine = Math.sin(rotation);
+		
+		
 		for(int y = 0; y<height;y++) {
 			double ceiling = (y - height/2.0) / height;
 			if(ceiling < 0) {
@@ -28,8 +33,8 @@ public class Render3D extends Render{
 				//using a bitwise operator
 				//can also use << or >> for some interesting effects
 				//subtracting time can get moroe diagonal movemnt
-				int intValXDepth = (int) (xDepth);
-				int intValZ = (int) (z + game.time);
+				int intValXDepth = (int) (xDepth * cosine + z * sine);
+				int intValZ = (int) (z * cosine - xDepth * sine);
 				pixels[x + y * width] = ((intValXDepth & 15)* 16 ) | ((intValZ & 15)* 16) << 8;
 			}
 		}
