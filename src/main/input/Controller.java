@@ -4,7 +4,7 @@ public class Controller {
 	public double x, z, rotation, xa, za, rotationa;
 	
 	public void tick(boolean forward,boolean back, boolean left, boolean right, boolean turnLeft,boolean turnRight) {
-		double rotationSpeed = 1;
+		double rotationSpeed = 0.025;
 		double walkSpeed = 1;
 		double xMove = 0;
 		double zMove = 0;
@@ -18,19 +18,19 @@ public class Controller {
 		}
 		
 		if(left) {
-			xMove++;
-		}
-		
-		if(right) {
 			xMove--;
 		}
 		
+		if(right) {
+			xMove++;
+		}
+		
 		if(turnLeft) {
-			rotationa += rotationSpeed;
+			rotationa -= rotationSpeed;
 		}
 		
 		if(turnRight) {
-			rotationa -= rotationSpeed;
+			rotationa += rotationSpeed;
 		}
 		
 		xa += (xMove * Math.cos(rotation) + zMove * Math.sin(rotation)) * walkSpeed;
@@ -41,6 +41,6 @@ public class Controller {
 		xa *= 0.1;
 		za *= 0.1;
 		rotation += rotationa;
-		rotation *= 0.8;
+		rotation *= 0.5;
 	}
 }

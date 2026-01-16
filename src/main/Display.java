@@ -36,15 +36,18 @@ public class Display extends Canvas implements Runnable{
 		setMinimumSize(size);
 		setMaximumSize(size);
 		screen = new Screen(WIDTH,HEIGHT);
+		game = new Game();
 		img = new BufferedImage(WIDTH,HEIGHT, BufferedImage.TYPE_INT_RGB);
 		pixels = ((DataBufferInt) img.getRaster().getDataBuffer()).getData();
-		game = new Game();
+		
 		
 		input = new InputHandler();
+		//For some reason this will only focus if you click the actual panel
 		addKeyListener(input);
+		addFocusListener(input);
 		addMouseListener(input);
 		addMouseMotionListener(input);
-		addFocusListener(input);
+		
 	}
 	
 	public void start() {

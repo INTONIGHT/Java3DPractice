@@ -9,10 +9,11 @@ public class Game {
 	public Controller controls;
 	
 	public Game() {
-		
+		controls = new Controller();
 	}
 	
 	public void tick(boolean[] key) {
+		//time+= .0025;
 		time++;
 		boolean forward = key[KeyEvent.VK_W];
 		boolean back = key[KeyEvent.VK_S];

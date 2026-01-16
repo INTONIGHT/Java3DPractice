@@ -11,14 +11,15 @@ public class Render3D extends Render{
 	
 	
 	public void floor(Game game) {
-		double rotation = game.time / 100.0;
+		//double rotation = game.time / 100.0;
+		double rotation = game.controls.rotation;
 		double cosine = Math.cos(rotation);
 		double sine = Math.sin(rotation);
 		//allows us to manipulate the floor and ceiling seperately
 		double floorPosition = 8;
 		double ceilingPosition = 8;
-		double forward = game.time / 5.0;
-		double rightMovement = game.time / 5.0;
+		double forward = game.controls.z ;
+		double right = game.controls.x;
 		
 		for(int y = 0; y<height;y++) {
 			double ceiling = (y - height/2.0) / height;
@@ -34,14 +35,17 @@ public class Render3D extends Render{
 			
 			
 			for(int x =0; x<width; x++) {
-				double xDepth = (x - width / 2.0) / height;
-				xDepth *= z;
+				double depth = (x - width / 2.0) / height;
+				depth *= z;
 				//using a bitwise operator
 				//can also use << or >> for some interesting effects
 				//subtracting time can get moroe diagonal movemnt
-				int intValXDepth = (int) (xDepth * cosine + z * sine + rightMovement);
-				int intValZ = (int) (z * cosine - xDepth * sine + forward);
-				pixels[x + y * width] = ((intValXDepth & 15)* 16 ) | ((intValZ & 15)* 16) << 8;
+				double xx = depth * cosine + z * sine;
+				double yy = z * cosine - depth * sine;
+				
+				int xPix = (int) (xx + right);
+				int yPix = (int) (yy + forward);
+				pixels[x + y * width] = ((xPix & 15)* 16 ) | ((yPix & 15)* 16) << 8;
 			}
 		}
 	}
