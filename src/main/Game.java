@@ -2,8 +2,11 @@ package main;
 
 import java.awt.event.KeyEvent;
 
+import main.input.Controller;
+
 public class Game {
 	public int time;
+	public Controller controls;
 	
 	public Game() {
 		
@@ -18,5 +21,7 @@ public class Game {
 		
 		boolean turnLeft = key[KeyEvent.VK_LEFT];
 		boolean turnRight = key[KeyEvent.VK_RIGHT];
+		
+		controls.tick(forward, back, left, right, turnLeft, turnRight);
 	}
 }
