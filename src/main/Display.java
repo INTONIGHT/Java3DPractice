@@ -10,6 +10,8 @@ import javax.swing.JFrame;
 
 import main.graphics.Render;
 import main.graphics.Screen;
+import main.input.InputHandler;
+
 import java.awt.image.DataBufferInt;
 import java.awt.image.RenderedImage;
 import java.awt.image.DataBuffer;
@@ -26,6 +28,7 @@ public class Display extends Canvas implements Runnable{
 	private BufferedImage img;
 	private int[] pixels;
 	private Game game;
+	private InputHandler input;
 	
 	public Display() {
 		Dimension size = new Dimension(WIDTH,HEIGHT);
@@ -36,6 +39,12 @@ public class Display extends Canvas implements Runnable{
 		img = new BufferedImage(WIDTH,HEIGHT, BufferedImage.TYPE_INT_RGB);
 		pixels = ((DataBufferInt) img.getRaster().getDataBuffer()).getData();
 		game = new Game();
+		
+		input = new InputHandler();
+		addKeyListener(input);
+		addMouseListener(input);
+		addMouseMotionListener(input);
+		addFocusListener(input);
 	}
 	
 	public void start() {
@@ -118,7 +127,7 @@ public class Display extends Canvas implements Runnable{
 
 	private void tick() {
 		// TODO Auto-generated method stub
-		game.tick();
+		game.tick(input.key);
 	}
 
 	//Handles the display and main loop
