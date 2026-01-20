@@ -4,7 +4,7 @@ import main.Game;
 public class Render3D extends Render{
 	
 	public double[] zBuffer;
-	private double renderDistance = 1000;
+	private double renderDistance = 5000;
 	
 
 	public Render3D(int width, int height) {
@@ -53,9 +53,10 @@ public class Render3D extends Render{
 				zBuffer[x + y *width] = z;
 				pixels[x + y * width] = ((xPix & 15)* 16 ) | ((yPix & 15)* 16) << 8;
 				//doing some limiting on what gets rendered
-				if(z > 200) {
-					pixels[x +y*width] = 0;
-				}
+				//this part can change how the fade goes.
+//				if(z > 500) {
+//					pixels[x +y*width] = 0;
+//				}
 			}
 		}
 	}
