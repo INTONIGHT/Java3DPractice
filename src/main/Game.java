@@ -20,9 +20,9 @@ public class Game {
 		boolean left = key[KeyEvent.VK_A];
 		boolean right = key[KeyEvent.VK_D];
 		
-		boolean turnLeft = key[KeyEvent.VK_LEFT];
-		boolean turnRight = key[KeyEvent.VK_RIGHT];
+		//boolean turnLeft = key[KeyEvent.VK_LEFT];
+		// turnRight = key[KeyEvent.VK_RIGHT];
 		
-		controls.tick(forward, back, left, right, turnLeft, turnRight);
+		controls.tick(forward, back, left, right);
 	}
 }

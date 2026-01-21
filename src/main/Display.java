@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 
 import main.graphics.Render;
 import main.graphics.Screen;
+import main.input.Controller;
 import main.input.InputHandler;
 
 import java.awt.image.DataBufferInt;
@@ -117,13 +118,14 @@ public class Display extends Canvas implements Runnable{
 			updatedY = InputHandler.mouseY;
 			
 			if(updatedX > oldX) {
-				System.out.println("right");
+				Controller.turnRight = true;
 			}
 			if(updatedX < oldX) {
-				System.out.println("left");
+				Controller.turnLeft = true;
 			}
 			if(updatedX == oldX) {
-				System.out.println("not moving");
+				Controller.turnLeft = false;
+				Controller.turnRight = false;
 			}
 			oldX = updatedX;
 		}
