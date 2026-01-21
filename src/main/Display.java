@@ -29,6 +29,10 @@ public class Display extends Canvas implements Runnable{
 	private int[] pixels;
 	private Game game;
 	private InputHandler input;
+	private int updatedX = 0;
+	private int updatedY = 0;
+	
+	private int oldX = 0;
 	
 	public Display() {
 		Dimension size = new Dimension(WIDTH,HEIGHT);
@@ -108,6 +112,20 @@ public class Display extends Canvas implements Runnable{
 			render();
 			frames++;
 			
+			
+			updatedX = InputHandler.mouseX;
+			updatedY = InputHandler.mouseY;
+			
+			if(updatedX > oldX) {
+				System.out.println("right");
+			}
+			if(updatedX < oldX) {
+				System.out.println("left");
+			}
+			if(updatedX == oldX) {
+				System.out.println("not moving");
+			}
+			oldX = updatedX;
 		}
 	}
 	

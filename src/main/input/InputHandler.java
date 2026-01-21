@@ -10,17 +10,24 @@ import java.awt.event.MouseMotionListener;
 
 public class InputHandler implements KeyListener,FocusListener,MouseListener,MouseMotionListener {
 	public boolean[] key = new boolean[68836];
+	public static int mouseX;
+	public static int mouseY;
 
+	
+	//click and drag
 	@Override
 	public void mouseDragged(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	//just moving the mouse across the screen
 	@Override
 	public void mouseMoved(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+		//relative to frame vs monitor
+		mouseX = e.getX();
+		mouseY = e.getY();
 	}
 
 	@Override
