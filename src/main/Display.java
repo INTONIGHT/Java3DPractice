@@ -1,8 +1,11 @@
 package main;
 
 import java.awt.Canvas;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
@@ -156,11 +159,14 @@ public class Display extends Canvas implements Runnable{
 
 	//Handles the display and main loop
 	public static void main(String[] args) {
+		BufferedImage cursor = new BufferedImage(16,16,BufferedImage.TYPE_INT_ARGB);
+		Cursor blank = Toolkit.getDefaultToolkit().createCustomCursor(cursor, new Point(0,0), "Blank");
 		// TODO Auto-generated method stub
 		Display game = new Display();
 		JFrame frame = new JFrame();
 		frame.add(game);
 		frame.pack();
+		frame.getContentPane().setCursor(blank);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setTitle(TITLE);
