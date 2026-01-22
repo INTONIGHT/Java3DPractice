@@ -51,7 +51,9 @@ public class Render3D extends Render{
 				int xPix = (int) (xx + right);
 				int yPix = (int) (yy + forward);
 				zBuffer[x + y *width] = z;
-				pixels[x + y * width] = ((xPix & 15)* 16 ) | ((yPix & 15)* 16) << 8;
+				//so one option you could do is use the math part for a subsitute if floor is not rendered;
+				//((xPix & 15)* 16 ) | ((yPix & 15)* 16) << 8
+				pixels[x + y * width] = Texture.floor.pixels[ (xPix & 7) + (yPix & 7) * 8];
 				//doing some limiting on what gets rendered
 				//this part can change how the fade goes.
 //				if(z > 500) {
