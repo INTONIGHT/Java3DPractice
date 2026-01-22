@@ -1,8 +1,10 @@
 package main;
 
 import java.awt.Canvas;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Toolkit;
@@ -35,6 +37,7 @@ public class Display extends Canvas implements Runnable{
 	private InputHandler input;
 	private int updatedX = 0;
 	private int updatedY = 0;
+	private int fps;
 	
 	private int oldX = 0;
 	
@@ -105,6 +108,7 @@ public class Display extends Canvas implements Runnable{
 				if(tickCount % 60 == 0) {
 					//if you want to display fps
 					//System.out.println(frames + " fps");
+					fps = frames;
 					previousTime += 1000;
 					frames = 0;
 				}
@@ -148,6 +152,10 @@ public class Display extends Canvas implements Runnable{
 		}
 		Graphics g = buffStrat.getDrawGraphics();
 		g.drawImage(img, 0, 0, WIDTH, HEIGHT, null);
+		g.setFont(new Font("Verdana",0,50));
+		g.setColor(Color.cyan);
+		
+		g.drawString(fps + "FPS",50,50);
 		g.dispose();
 		buffStrat.show();
 	}
