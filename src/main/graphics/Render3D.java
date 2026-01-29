@@ -1,5 +1,6 @@
 package main.graphics;
 import main.Game;
+import main.input.Controller;
 
 public class Render3D extends Render{
 	
@@ -25,16 +26,21 @@ public class Render3D extends Render{
 		double ceilingPosition = 8;
 		double forward = game.controls.z ;
 		double right = game.controls.x;
-		
-		//game.controls.y
 		double vertical = game.controls.y;
+		double walking = Math.sin(game.time/6.0) * 0.5;
 		
 		for(int y = 0; y<height;y++) {
 			double ceiling = (y - height/2.0) / height;
 			
-			double z = (floorPosition + vertical) /ceiling;
+			double z = (floorPosition + vertical ) /ceiling;
+			if(Controller.walk) {
+				z = (floorPosition + vertical + walking ) /ceiling;
+			}
 			if(ceiling < 0) {
-				z = (ceilingPosition - vertical) / -ceiling;
+				z = (ceilingPosition - vertical ) / -ceiling;
+				if(Controller.walk) {
+					z = (ceilingPosition - vertical - walking ) / -ceiling;
+				}
 			}
 			
 			//this lets you have a change to whats being rendered but it will look wonky if
