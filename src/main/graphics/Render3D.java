@@ -28,6 +28,13 @@ public class Render3D extends Render{
 		double right = game.controls.x;
 		double vertical = game.controls.y;
 		double walking = Math.sin(game.time/6.0) * 0.5;
+		if(Controller.crouchWalk) {
+			walking = Math.sin(game.time/6.0) * 0.2;
+		}
+		//allows you to control the animation of bobbing when running
+		if(Controller.runAnim) {
+			walking = Math.sin(game.time/6.0) * 0.8;
+		}
 		
 		for(int y = 0; y<height;y++) {
 			double ceiling = (y - height/2.0) / height;

@@ -6,6 +6,8 @@ public class Controller {
 	public static boolean turnRight = false;
 	//public static boolean ableToRun = false;
 	public static boolean walk = false;
+	public static boolean crouchWalk = false;
+	public static boolean runAnim = false;
 	
 	public void tick(boolean forward,boolean back, boolean left, boolean right,boolean jump, boolean crouch,boolean run) {
 		double rotationSpeed = 0.025;
@@ -54,11 +56,22 @@ public class Controller {
 		if(crouch) {
 			y -= crouchHeight;
 			run = false;
+			crouchWalk = true;
 		}
 		if(run) {
 			walkSpeed = 1;
 			walk = true;
+			runAnim = true;
 		}
+		
+		if(!crouch) {
+			crouchWalk = false;
+		}
+		
+		if(!run) {
+			runAnim = false;
+		}
+		
 		if(!forward && !back && !left && !right && !turnLeft && !turnRight && !run) {
 			walk = false;
 		}
