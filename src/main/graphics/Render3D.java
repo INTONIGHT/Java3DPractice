@@ -29,7 +29,7 @@ public class Render3D extends Render{
 		double vertical = game.controls.y;
 		double walking = Math.sin(game.time/6.0) * 0.5;
 		if(Controller.crouchWalk) {
-			walking = Math.sin(game.time/6.0) * 0.2;
+			walking = Math.sin(game.time/6.0) * 0.25;
 		}
 		//allows you to control the animation of bobbing when running
 		if(Controller.runAnim) {
