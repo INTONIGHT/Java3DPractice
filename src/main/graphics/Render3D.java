@@ -26,12 +26,15 @@ public class Render3D extends Render{
 		double forward = game.controls.z ;
 		double right = game.controls.x;
 		
+		//game.controls.y
+		double vertical = game.controls.y;
+		
 		for(int y = 0; y<height;y++) {
 			double ceiling = (y - height/2.0) / height;
 			
-			double z = floorPosition /ceiling;
+			double z = (floorPosition + vertical) /ceiling;
 			if(ceiling < 0) {
-				z = ceilingPosition / -ceiling;
+				z = (ceilingPosition - vertical) / -ceiling;
 			}
 			
 			//this lets you have a change to whats being rendered but it will look wonky if
