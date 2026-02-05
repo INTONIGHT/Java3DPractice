@@ -11,6 +11,7 @@ import java.awt.BorderLayout;
   --type dmg \
   --java-options '--enable-preview'
  */
+
 public class GameApplet extends Applet{
 	private static final long serialVersionUID = 1L;
 	

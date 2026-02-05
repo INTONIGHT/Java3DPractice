@@ -11,7 +11,7 @@ public class Texture {
 	
 	public static Render loadBitmap(String fileName) {
 		try {
-			System.out.println(fileName);
+			
 			//so the whole adding as a resource didnt work i need to add the folders to the src folder
 			//so keep that in mind for future building can reference the 2d thing I made
 			BufferedImage image = ImageIO.read(Texture.class.getResourceAsStream(fileName));

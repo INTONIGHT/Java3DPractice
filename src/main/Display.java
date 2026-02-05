@@ -28,6 +28,8 @@ import java.awt.image.DataBuffer;
 	//browse display main file extract required libraries into generated jar.
 //if resource is out of sync make sure to refresh on the project 
 //hit finish donnt worry about warnings. then you can see the file and then run it withopen with java platform
+//for the applet use jar file and have src res and then you can export as a jar file.
+//you can then just create an html file and run the .class in the jar needs <applet code="main.GameApplet" archive="<jar name>"
 
 public class Display extends Canvas implements Runnable{
 	public static final int WIDTH = 800;
