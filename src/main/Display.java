@@ -22,6 +22,13 @@ import java.awt.image.DataBufferInt;
 import java.awt.image.RenderedImage;
 import java.awt.image.DataBuffer;
 
+
+//to export as a runnable jar
+	//file->export under java runnable jar file.
+	//browse display main file extract required libraries into generated jar.
+//if resource is out of sync make sure to refresh on the project 
+//hit finish donnt worry about warnings. then you can see the file and then run it withopen with java platform
+
 public class Display extends Canvas implements Runnable{
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 600;
@@ -99,6 +106,8 @@ public class Display extends Canvas implements Runnable{
 			long passedTime = currentTime - previousTime;
 			previousTime = currentTime;
 			unprocessedSeconds += passedTime / 1000000000.0;
+			//should let you automatically move on screen
+			requestFocus();
 			
 			while(unprocessedSeconds > secondsPerTick) {
 				tick();
