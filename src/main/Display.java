@@ -68,7 +68,7 @@ public class Display extends Canvas implements Runnable{
 		
 	}
 	
-	public void start() {
+	public synchronized void start() {
 		if(running) {
 			return;
 		}else {
@@ -78,7 +78,7 @@ public class Display extends Canvas implements Runnable{
 		}
 	}
 	
-	private void stop() {
+	public synchronized void stop() {
 		if(!running) {
 			return;
 		}else {
