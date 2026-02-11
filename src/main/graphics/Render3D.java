@@ -9,7 +9,8 @@ public class Render3D extends Render {
 
 	public double[] zBuffer;
 	private double renderDistance = 5000;
-	private double forwardGlobal;
+	private double forward,right,cosine,sine,vertical;
+	
 	
 
 	public Render3D(int width, int height) {
@@ -21,15 +22,15 @@ public class Render3D extends Render {
 	public void floor(Game game) {
 		// double rotation = game.time / 100.0;
 		double rotation = game.controls.rotation;
-		double cosine = Math.cos(rotation);
-		double sine = Math.sin(rotation);
+		 cosine = Math.cos(rotation);
+		 sine = Math.sin(rotation);
 		// allows us to manipulate the floor and ceiling seperately
 		double floorPosition = 8;
 		double ceilingPosition = 8;
-		double forward = game.time % 100.0 / 20.0;
-		forwardGlobal = forward;
-		double right = game.controls.x;
-		double vertical = game.controls.y;
+		 forward = game.controls.z;
+		
+		 right = game.controls.x;
+		 vertical = game.controls.y;
 		double walking = Math.sin(game.time / 6.0) * 0.5;
 		if (Controller.crouchWalk) {
 			walking = Math.sin(game.time / 6.0) * 0.25;
@@ -84,92 +85,16 @@ public class Render3D extends Render {
 		
 	}
 	
-	public void renderWalls() {
-		Random random = new Random(100);
-		for (int i = 0; i < 20000; i++) {
-			double xx = random.nextDouble();
-			double yy = random.nextDouble();
-			double zz = 1.5 - forwardGlobal / 16;
-			
-			int xPixel = (int) (xx / zz * height / 2 + width / 2);
-			int yPixel = (int) (yy / zz * height / 2 + height / 2);
-			if (xPixel >= 0 && yPixel >= 0 && xPixel < width && yPixel < height) {
-				pixels[xPixel + yPixel * width] = 0xfffff;
-			}
-		}
-		//you can duplicate the loop and then offset the xx or yy by -1 after its calculations
-		for (int i = 0; i < 20000; i++) {
-			double xx = random.nextDouble() - 1;
-			double yy = random.nextDouble();
-			double zz = 1.5 - forwardGlobal / 16;
-			int xPixel = (int) (xx / zz * height / 2 + width / 2);
-			int yPixel = (int) (yy / zz * height / 2 + height / 2);
-			if (xPixel >= 0 && yPixel >= 0 && xPixel < width && yPixel < height) {
-				pixels[xPixel + yPixel * width] = 0xfffff;
-			}
-		}
-		for (int i = 0; i < 20000; i++) {
-			double xx = random.nextDouble() ;
-			double yy = random.nextDouble() -1;
-			double zz = 1.5 - forwardGlobal / 16;
-			int xPixel = (int) (xx / zz * height / 2 + width / 2);
-			int yPixel = (int) (yy / zz * height / 2 + height / 2);
-			if (xPixel >= 0 && yPixel >= 0 && xPixel < width && yPixel < height) {
-				pixels[xPixel + yPixel * width] = 0xfffff;
-			}
-		}
-		for (int i = 0; i < 20000; i++) {
-			double xx = random.nextDouble() - 1;
-			double yy = random.nextDouble() - 1;
-			double zz = 1.5 - forwardGlobal / 16;
-			int xPixel = (int) (xx / zz * height / 2 + width / 2);
-			int yPixel = (int) (yy / zz * height / 2 + height / 2);
-			if (xPixel >= 0 && yPixel >= 0 && xPixel < width && yPixel < height) {
-				pixels[xPixel + yPixel * width] = 0xfffff;
-			}
-		}
-		//this is using 2 for the z offset
-		for (int i = 0; i < 20000; i++) {
-			double xx = random.nextDouble();
-			double yy = random.nextDouble();
-			double zz = 2 - forwardGlobal / 16;
-			int xPixel = (int) (xx / zz * height / 2 + width / 2);
-			int yPixel = (int) (yy / zz * height / 2 + height / 2);
-			if (xPixel >= 0 && yPixel >= 0 && xPixel < width && yPixel < height) {
-				pixels[xPixel + yPixel * width] = 0xfffff;
-			}
-		}
-		for (int i = 0; i < 20000; i++) {
-			double xx = random.nextDouble() - 1;
-			double yy = random.nextDouble();
-			double zz = 2 - forwardGlobal / 16;
-			int xPixel = (int) (xx / zz * height / 2 + width / 2);
-			int yPixel = (int) (yy / zz * height / 2 + height / 2);
-			if (xPixel >= 0 && yPixel >= 0 && xPixel < width && yPixel < height) {
-				pixels[xPixel + yPixel * width] = 0xfffff;
-			}
-		}
-		for (int i = 0; i < 20000; i++) {
-			double xx = random.nextDouble() - 1;
-			double yy = random.nextDouble() - 1;
-			double zz = 2 - forwardGlobal / 16;
-			int xPixel = (int) (xx / zz * height / 2 + width / 2);
-			int yPixel = (int) (yy / zz * height / 2 + height / 2);
-			if (xPixel >= 0 && yPixel >= 0 && xPixel < width && yPixel < height) {
-				pixels[xPixel + yPixel * width] = 0xfffff;
-			}
-		}
-		for (int i = 0; i < 20000; i++) {
-			double xx = random.nextDouble();
-			double yy = random.nextDouble() -1;
-			double zz = 2 - forwardGlobal / 16;
-			int xPixel = (int) (xx / zz * height / 2 + width / 2);
-			int yPixel = (int) (yy / zz * height / 2 + height / 2);
-			if (xPixel >= 0 && yPixel >= 0 && xPixel < width && yPixel < height) {
-				pixels[xPixel + yPixel * width] = 0xfffff;
-			}
-		}
+	public void renderWalls(double xLeft, double xRight, double zDistance, double yHeight) {
+		//calculateing the y position of the wall
+		double xcLeft = ((xLeft) -right) * 2;
+		double zcLeft = ((zDistance) - forward) * 2;
+		
+		double rotLeftSideX = xcLeft * cosine - zcLeft * sine;
+		//top left corner
+		double yCornerTL = ((-yHeight)-vertical) * 2;
 	}
+	
 
 	public void renderDistanceLimiter() {
 		for (int i = 0; i < width * height; i++) {

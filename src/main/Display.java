@@ -30,7 +30,8 @@ import java.awt.image.DataBuffer;
 //hit finish donnt worry about warnings. then you can see the file and then run it withopen with java platform
 //for the applet use jar file and have src res and then you can export as a jar file.
 //you can then just create an html file and run the .class in the jar needs <applet code="main.GameApplet" archive="<jar name>"
-
+//export runnable jar file browse for a folder. hit finish then go to that folder 
+//you can use an application like launnch4j or any program to convert the jar file into a runnable .exe file
 public class Display extends Canvas implements Runnable{
 	public static final int WIDTH = 800;
 	public static final int HEIGHT = 600;
