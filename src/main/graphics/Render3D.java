@@ -9,7 +9,7 @@ public class Render3D extends Render {
 
 	public double[] zBuffer;
 	private double renderDistance = 5000;
-	private double forward,right,cosine,sine,vertical;
+	private double forward,right,cosine,sine,up;
 	
 	
 
@@ -21,7 +21,7 @@ public class Render3D extends Render {
 
 	public void floor(Game game) {
 		// double rotation = game.time / 100.0;
-		double rotation = game.controls.rotation;
+		double rotation = 0;//game.controls.rotation;
 		 cosine = Math.cos(rotation);
 		 sine = Math.sin(rotation);
 		// allows us to manipulate the floor and ceiling seperately
@@ -30,7 +30,7 @@ public class Render3D extends Render {
 		 forward = game.controls.z;
 		
 		 right = game.controls.x;
-		 vertical = game.controls.y;
+		 up = game.controls.y;
 		double walking = Math.sin(game.time / 6.0) * 0.5;
 		if (Controller.crouchWalk) {
 			walking = Math.sin(game.time / 6.0) * 0.25;
@@ -43,14 +43,14 @@ public class Render3D extends Render {
 		for (int y = 0; y < height; y++) {
 			double ceiling = (y - height / 2.0) / height;
 
-			double z = (floorPosition + vertical) / ceiling;
+			double z = (floorPosition + up) / ceiling;
 			if (Controller.walk) {
-				z = (floorPosition + vertical + walking) / ceiling;
+				z = (floorPosition + up + walking) / ceiling;
 			}
 			if (ceiling < 0) {
-				z = (ceilingPosition - vertical) / -ceiling;
+				z = (ceilingPosition - up) / -ceiling;
 				if (Controller.walk) {
-					z = (ceilingPosition - vertical - walking) / -ceiling;
+					z = (ceilingPosition - up - walking) / -ceiling;
 				}
 			}
 
@@ -87,12 +87,73 @@ public class Render3D extends Render {
 	
 	public void renderWalls(double xLeft, double xRight, double zDistance, double yHeight) {
 		//calculateing the y position of the wall
-		double xcLeft = ((xLeft) -right) * 2;
+		double xcLeft = ((xLeft) - right) * 2;
 		double zcLeft = ((zDistance) - forward) * 2;
 		
 		double rotLeftSideX = xcLeft * cosine - zcLeft * sine;
 		//top left corner
-		double yCornerTL = ((-yHeight)-vertical) * 2;
+		//i call up up
+		double yCornerTL = ((-yHeight) - up) * 2;
+		double yCornerBL = ((+0.5 - yHeight) - up) * 2;
+		double rotLeftSideZ = zcLeft * cosine + xcLeft * sine;
+		
+		double xcRight = ((xRight) - right) * 2;
+		double zcRight = ((zDistance) - forward) * 2;
+		
+		double rotRightSideX = xcRight * cosine - zcRight * sine;
+		double yCornerTR = ((-yHeight)-up) *2;
+		double yCornerBR = ((+0.5 - yHeight) - up) * 2;
+		
+		double rotRightSideZ = zcRight * cosine + xcRight * sine;
+		
+		//now we have our corner pins.
+		//left edge of the wall
+		double xPixelLeft = (rotLeftSideX / rotLeftSideZ * height + width / 2);
+		double xPixelRight = (rotRightSideX / rotRightSideZ * height + width / 2);
+		
+		if(xPixelLeft >= xPixelRight) {
+			return;
+		}
+		
+		int xPixelLeftInt = (int) xPixelLeft;
+		int xPixelRightInt = (int) xPixelRight;
+		
+		if(xPixelLeftInt < 0) {
+			xPixelLeftInt = 0;
+		}
+		if(xPixelRightInt > width) {
+			xPixelRightInt = width;
+		}
+		
+		//corner pins
+		double yPixelLeftTop = (int) (yCornerTL / rotLeftSideZ * height + height / 2);
+		double yPixelLeftBottom = (int) (yCornerBL / rotLeftSideZ * height + height / 2);
+		double yPixelRightTop = (int) (yCornerTR / rotRightSideZ * height + height / 2);
+		double yPixelRightBottom = (int) (yCornerBR / rotRightSideZ * height + height / 2);
+		
+		for(int x = xPixelLeftInt; x < xPixelRightInt; x++) {
+			double pixelRotation = (x - xPixelLeft) / (xPixelRight - xPixelLeft);
+			
+			double yPixelTop = yPixelLeftTop + (yPixelRightTop - yPixelLeftTop) * pixelRotation;
+			double yPixelBottom = yPixelLeftBottom + (yPixelRightBottom - yPixelLeftBottom) * pixelRotation;
+			
+			int yPixelTopInt = (int) (yPixelTop);
+			int yPixelBottomInt = (int) (yPixelBottom);
+			
+			if(yPixelTopInt < 0) {
+				yPixelTopInt = 0;
+			}
+			if(yPixelTopInt > height) {
+				yPixelTopInt = height;
+			}
+			
+			for(int y = yPixelTopInt; y < yPixelBottomInt; y++) {
+				//can be any color
+				
+				pixels[x + y*width] = 0x1B91E0;
+				zBuffer[x + y *width] = 0;
+			}
+		}
 	}
 	
 
