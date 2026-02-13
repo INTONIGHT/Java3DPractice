@@ -20,7 +20,7 @@ public class Render3D extends Render {
 	}
 
 	public void floor(Game game) {
-		// double rotation = game.time / 100.0;
+		// double rotation = Math.sin(game.time / 40.0) * 0.5;
 		double rotation = game.controls.rotation;
 		 cosine = Math.cos(rotation);
 		 sine = Math.sin(rotation);
@@ -141,7 +141,7 @@ public class Render3D extends Render {
 		for(int x = xPixelLeftInt; x < xPixelRightInt; x++) {
 			double pixelRotation = (x - xPixelLeft) / (xPixelRight - xPixelLeft);
 			
-			int xTexture = (int) ((tex3 + tex4 * pixelRotation) / tex1 + (tex2 - tex1) * pixelRotation);
+			int xTexture = (int) ((tex3 + tex4 * pixelRotation) / (tex1 + (tex2 - tex1) * pixelRotation));
 			
 			double yPixelTop = yPixelLeftTop + (yPixelRightTop - yPixelLeftTop) * pixelRotation;
 			double yPixelBottom = yPixelLeftBottom + (yPixelRightBottom - yPixelLeftBottom) * pixelRotation;
@@ -160,8 +160,9 @@ public class Render3D extends Render {
 				//can be any color
 				//0x1B91E0
 				double pixelRotationY = (y - yPixelTop) / (yPixelBottom - yPixelTop);
-				pixels[x + y*width] = xTexture * 100;
-				zBuffer[x + y *width] = 0;
+				int yTexture = (int) (8 * pixelRotationY);
+				pixels[x + y*width] = xTexture * 100 + yTexture * 100 * 256;
+				zBuffer[x + y *width] = 1 / (tex1 + (tex2 - tex1) * pixelRotation) * 8;
 			}
 		}
 	}
