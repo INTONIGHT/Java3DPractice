@@ -126,13 +126,22 @@ public class Render3D extends Render {
 		}
 		
 		//corner pins
-		double yPixelLeftTop = (int) (yCornerTL / rotLeftSideZ * height + height / 2);
-		double yPixelLeftBottom = (int) (yCornerBL / rotLeftSideZ * height + height / 2);
-		double yPixelRightTop = (int) (yCornerTR / rotRightSideZ * height + height / 2);
-		double yPixelRightBottom = (int) (yCornerBR / rotRightSideZ * height + height / 2);
+		double yPixelLeftTop =  (yCornerTL / rotLeftSideZ * height + height / 2);
+		double yPixelLeftBottom =  (yCornerBL / rotLeftSideZ * height + height / 2);
+		double yPixelRightTop =  (yCornerTR / rotRightSideZ * height + height / 2);
+		double yPixelRightBottom =  (yCornerBR / rotRightSideZ * height + height / 2);
+		
+		double tex1 = 1 / rotLeftSideZ;
+		double tex2 = 1 / rotRightSideZ;
+		double tex3 = 0 / rotLeftSideZ;
+		double tex4 = 8 / rotRightSideZ - tex3;
+		
+		
 		
 		for(int x = xPixelLeftInt; x < xPixelRightInt; x++) {
 			double pixelRotation = (x - xPixelLeft) / (xPixelRight - xPixelLeft);
+			
+			int xTexture = (int) ((tex3 + tex4 * pixelRotation) / tex1 + (tex2 - tex1) * pixelRotation);
 			
 			double yPixelTop = yPixelLeftTop + (yPixelRightTop - yPixelLeftTop) * pixelRotation;
 			double yPixelBottom = yPixelLeftBottom + (yPixelRightBottom - yPixelLeftBottom) * pixelRotation;
@@ -149,13 +158,9 @@ public class Render3D extends Render {
 			
 			for(int y = yPixelTopInt; y < yPixelBottomInt; y++) {
 				//can be any color
-				try {
-					pixels[x + y*width] = 0x1B91E0;
-					
-				} catch(ArrayIndexOutOfBoundsException e) {
-					e.printStackTrace();
-					continue;
-				}
+				//0x1B91E0
+				double pixelRotationY = (y - yPixelTop) / (yPixelBottom - yPixelTop);
+				pixels[x + y*width] = xTexture * 100;
 				zBuffer[x + y *width] = 0;
 			}
 		}
