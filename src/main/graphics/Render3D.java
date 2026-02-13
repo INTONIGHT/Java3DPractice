@@ -21,7 +21,7 @@ public class Render3D extends Render {
 
 	public void floor(Game game) {
 		// double rotation = game.time / 100.0;
-		double rotation = 0;//game.controls.rotation;
+		double rotation = game.controls.rotation;
 		 cosine = Math.cos(rotation);
 		 sine = Math.sin(rotation);
 		// allows us to manipulate the floor and ceiling seperately
@@ -143,14 +143,19 @@ public class Render3D extends Render {
 			if(yPixelTopInt < 0) {
 				yPixelTopInt = 0;
 			}
-			if(yPixelTopInt > height) {
-				yPixelTopInt = height;
+			if(yPixelBottomInt > height) {
+				yPixelBottomInt = height;
 			}
 			
 			for(int y = yPixelTopInt; y < yPixelBottomInt; y++) {
 				//can be any color
-				
-				pixels[x + y*width] = 0x1B91E0;
+				try {
+					pixels[x + y*width] = 0x1B91E0;
+					
+				} catch(ArrayIndexOutOfBoundsException e) {
+					e.printStackTrace();
+					continue;
+				}
 				zBuffer[x + y *width] = 0;
 			}
 		}
