@@ -82,7 +82,7 @@ public class Render3D extends Render {
 				// so one option you could do is use the math part for a subsitute if floor is
 				// not rendered;
 				// ((xPix & 15)* 16 ) | ((yPix & 15)* 16) << 8
-				pixels[x + y * width] = Texture.floor.pixels[(xPix & 7) + (yPix & 7) * 8];
+				pixels[x + y * width] = Texture.floor.pixels[(xPix & 7) + (yPix & 7) * 16];
 				// doing some limiting on what gets rendered
 				// this part can change how the fade goes.
 //				if(z > 500) {
@@ -175,7 +175,12 @@ public class Render3D extends Render {
 				//0x1B91E0
 				double pixelRotationY = (y - yPixelTop) / (yPixelBottom - yPixelTop);
 				int yTexture = (int) (8 * pixelRotationY);
-				pixels[x + y*width] = xTexture * 100 + yTexture * 100 * 256;
+				//that last variable is the size of the image based horizontally
+				//to move over the image to the proper image in the sprite sheet need to add it to the xtexture or yTexture after the modification
+				pixels[x + y * width] = Texture.floor.pixels[(xTexture & 7) + 8 + (yTexture & 7) * 16];
+				
+				//way to make the wall have some pixels generated
+				//pixels[x + y*width] = xTexture * 100 + yTexture * 100 * 256;
 				zBuffer[x + y *width] = 1 / (tex1 + (tex2 - tex1) * pixelRotation) * 8;
 			}
 		}
