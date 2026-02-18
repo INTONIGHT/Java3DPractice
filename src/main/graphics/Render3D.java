@@ -96,10 +96,10 @@ public class Render3D extends Render {
 	
 	public void renderWalls(double xLeft, double xRight, double zDistanceLeft,double zDistanceRight, double yHeight) {
 		//calculateing the y position of the wall
-		double upCorrect = 0.062;
-		double rightCorrect = 0.062;
-		double forwardCorrect = 0.062;
-		double walkCorrect = -0.062;
+		double upCorrect = 0.0625;
+		double rightCorrect = 0.0625;
+		double forwardCorrect = 0.0625;
+		double walkCorrect = -0.0625;
 		
 		double xcLeft = ((xLeft) - (right * rightCorrect )) * 2;
 		double zcLeft = ((zDistanceLeft) - (forward * forwardCorrect)) * 2;
@@ -125,6 +125,34 @@ public class Render3D extends Render {
 		double xPixelLeft = (rotLeftSideX / rotLeftSideZ * height + width / 2);
 		double xPixelRight = (rotRightSideX / rotRightSideZ * height + width / 2);
 		
+		double tex30 = 0;
+		double tex40 = 8;
+		double clip = 0.5;
+		//fixing clipping
+		if(rotLeftSideZ < clip && rotRightSideZ <clip) {
+			return;
+		}
+		
+		if(rotLeftSideZ < clip) {
+			//this is an algorithim to correct the view
+			//cohen suthgerland algorithm. also line clipping is helpful to look up
+			double clipAdjust = (clip - rotLeftSideZ) / (rotRightSideZ - rotLeftSideZ);
+			rotLeftSideZ = rotLeftSideZ + (rotRightSideZ - rotLeftSideZ) * clipAdjust;
+			rotLeftSideX = rotLeftSideX + (rotRightSideX - rotLeftSideX) * clipAdjust;
+			tex30 = tex30 + (tex40 - tex30) * clipAdjust;
+			
+		}
+		if(rotRightSideZ < clip) {
+			//this is an algorithim to correct the view
+			//cohen suthgerland algorithm. also line clipping is helpful to look up
+			double clipAdjust = (clip - rotLeftSideZ) / (rotRightSideZ - rotLeftSideZ);
+			rotRightSideZ = rotLeftSideZ + (rotRightSideZ - rotLeftSideZ) * clipAdjust;
+			rotRightSideZ = rotLeftSideZ + (rotRightSideX - rotLeftSideX) * clipAdjust;
+			tex30 = tex30 + (tex40 - tex30) * clipAdjust;
+			
+		}
+		
+		
 		if(xPixelLeft >= xPixelRight) {
 			return;
 		}
@@ -147,8 +175,8 @@ public class Render3D extends Render {
 		
 		double tex1 = 1 / rotLeftSideZ;
 		double tex2 = 1 / rotRightSideZ;
-		double tex3 = 0 / rotLeftSideZ;
-		double tex4 = 8 / rotRightSideZ - tex3;
+		double tex3 = tex30 / rotLeftSideZ;
+		double tex4 = tex40 / rotRightSideZ - tex3;
 		
 		
 		
