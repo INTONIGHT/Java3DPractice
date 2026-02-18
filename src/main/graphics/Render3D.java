@@ -9,7 +9,7 @@ public class Render3D extends Render {
 
 	public double[] zBuffer;
 	private double renderDistance = 5000;
-	private double forward,right,cosine,sine,up;
+	private double forward,right,cosine,sine,up,walking;
 	
 	
 
@@ -28,25 +28,34 @@ public class Render3D extends Render {
 		double floorPosition = 8;
 		double ceilingPosition = 8;
 		 forward = game.controls.z;
+		 //keeping it at 0 and letting it go back to 0 if you stop walking
+		 walking = 0;
 		
 		 right = game.controls.x;
 		 up = game.controls.y;
-		double walking = Math.sin(game.time / 6.0) * 0.5;
-		if (Controller.crouchWalk) {
-			walking = Math.sin(game.time / 6.0) * 0.25;
-		}
-		// allows you to control the animation of bobbing when running
-		if (Controller.runAnim) {
-			walking = Math.sin(game.time / 6.0) * 0.8;
-		}
+		 
+		
 
 		for (int y = 0; y < height; y++) {
 			double ceiling = (y - height / 2.0) / height;
 
 			double z = (floorPosition + up) / ceiling;
-			if (Controller.walk) {
+			
+			if (Controller.crouchWalk && Controller.walk) {
+				walking = Math.sin(game.time / 6.0) * 0.25;
 				z = (floorPosition + up + walking) / ceiling;
 			}
+			// allows you to control the animation of bobbing when running
+			if (Controller.runAnim && Controller.walk) {
+				walking = Math.sin(game.time / 6.0) * 0.8;
+				z = (floorPosition + up + walking) / ceiling;
+			}
+			
+			if (Controller.walk) {
+				walking = Math.sin(game.time / 6.0) * 0.5;
+				z = (floorPosition + up + walking) / ceiling;
+			}
+			
 			if (ceiling < 0) {
 				z = (ceilingPosition - up) / -ceiling;
 				if (Controller.walk) {
@@ -90,23 +99,24 @@ public class Render3D extends Render {
 		double upCorrect = 0.062;
 		double rightCorrect = 0.062;
 		double forwardCorrect = 0.062;
+		double walkCorrect = -0.062;
 		
-		double xcLeft = ((xLeft) - (right * rightCorrect)) * 2;
+		double xcLeft = ((xLeft) - (right * rightCorrect )) * 2;
 		double zcLeft = ((zDistanceLeft) - (forward * forwardCorrect)) * 2;
 		
 		double rotLeftSideX = xcLeft * cosine - zcLeft * sine;
 		//top left corner
 		//i call up up
-		double yCornerTL = ((-yHeight) - (-up * upCorrect)) * 2;
-		double yCornerBL = ((+0.5 - yHeight) - (-up * 0.05)) * 2;
+		double yCornerTL = ((-yHeight) - (-up * upCorrect + (walking * walkCorrect))) * 2;
+		double yCornerBL = ((+0.5 - yHeight) - (-up * upCorrect + (walking * walkCorrect))) * 2;
 		double rotLeftSideZ = zcLeft * cosine + xcLeft * sine;
 		
 		double xcRight = ((xRight) - (right * rightCorrect)) * 2;
 		double zcRight = ((zDistanceRight) - (forward * forwardCorrect)) * 2;
 		
 		double rotRightSideX = xcRight * cosine - zcRight * sine;
-		double yCornerTR = ((-yHeight)-(-up * upCorrect)) *2;
-		double yCornerBR = ((+0.5 - yHeight) - (-up * upCorrect)) * 2;
+		double yCornerTR = ((-yHeight)-(-up * upCorrect + (walking * walkCorrect))) *2;
+		double yCornerBR = ((+0.5 - yHeight) - (-up * upCorrect + (walking * walkCorrect))) * 2;
 		
 		double rotRightSideZ = zcRight * cosine + xcRight * sine;
 		
