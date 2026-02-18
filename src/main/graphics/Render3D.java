@@ -85,24 +85,28 @@ public class Render3D extends Render {
 		
 	}
 	
-	public void renderWalls(double xLeft, double xRight, double zDistance, double yHeight) {
+	public void renderWalls(double xLeft, double xRight, double zDistanceLeft,double zDistanceRight, double yHeight) {
 		//calculateing the y position of the wall
-		double xcLeft = ((xLeft) - right) * 2;
-		double zcLeft = ((zDistance) - forward) * 2;
+		double upCorrect = 0.062;
+		double rightCorrect = 0.062;
+		double forwardCorrect = 0.062;
+		
+		double xcLeft = ((xLeft) - (right * rightCorrect)) * 2;
+		double zcLeft = ((zDistanceLeft) - (forward * forwardCorrect)) * 2;
 		
 		double rotLeftSideX = xcLeft * cosine - zcLeft * sine;
 		//top left corner
 		//i call up up
-		double yCornerTL = ((-yHeight) - up) * 2;
-		double yCornerBL = ((+0.5 - yHeight) - up) * 2;
+		double yCornerTL = ((-yHeight) - (-up * upCorrect)) * 2;
+		double yCornerBL = ((+0.5 - yHeight) - (-up * 0.05)) * 2;
 		double rotLeftSideZ = zcLeft * cosine + xcLeft * sine;
 		
-		double xcRight = ((xRight) - right) * 2;
-		double zcRight = ((zDistance) - forward) * 2;
+		double xcRight = ((xRight) - (right * rightCorrect)) * 2;
+		double zcRight = ((zDistanceRight) - (forward * forwardCorrect)) * 2;
 		
 		double rotRightSideX = xcRight * cosine - zcRight * sine;
-		double yCornerTR = ((-yHeight)-up) *2;
-		double yCornerBR = ((+0.5 - yHeight) - up) * 2;
+		double yCornerTR = ((-yHeight)-(-up * upCorrect)) *2;
+		double yCornerBR = ((+0.5 - yHeight) - (-up * upCorrect)) * 2;
 		
 		double rotRightSideZ = zcRight * cosine + xcRight * sine;
 		

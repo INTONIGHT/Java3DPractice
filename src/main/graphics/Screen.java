@@ -41,8 +41,8 @@ public class Screen extends Render{
 		
 		//the last value controls how hight the wall is it goes in increments of 0.5 
 		
-		render.renderWalls(0,0.5,1.5,0.5);
-		render.renderWalls(0,0.5,1.5,0);
+		render.renderWalls(0, 0.5, 1.5, 1.5, 0);
+		render.renderWalls(0, 0, 1,1.5, 0);
 		render.renderDistanceLimiter();
 		draw(render,0,0);
 		
