@@ -12,7 +12,7 @@ public class InputHandler implements KeyListener,FocusListener,MouseListener,Mou
 	public boolean[] key = new boolean[68836];
 	public static int mouseX;
 	public static int mouseY;
-
+	public static int mouseButton;
 	
 	//click and drag
 	@Override
@@ -33,7 +33,7 @@ public class InputHandler implements KeyListener,FocusListener,MouseListener,Mou
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+		mouseButton = e.getButton();
 	}
 
 	@Override

@@ -43,6 +43,8 @@ public class Screen extends Render{
 		
 		render.renderWalls(0, 0.5, 1.5, 1.5, 0);
 		render.renderWalls(0, 0, 1,1.5, 0);
+		render.renderWalls(0, 0.5, 1,1, 0);
+		render.renderWalls(0.5, 0.5, 1,1.5, 0);
 		render.renderDistanceLimiter();
 		draw(render,0,0);
 		

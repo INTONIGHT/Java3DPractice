@@ -51,6 +51,8 @@ public class Display extends Canvas implements Runnable{
 	
 	private int oldX = 0;
 	
+	public static int mouseSpeed;
+	
 	public Display() {
 		Dimension size = new Dimension(WIDTH,HEIGHT);
 		setPreferredSize(size);
@@ -146,6 +148,7 @@ public class Display extends Canvas implements Runnable{
 				Controller.turnLeft = false;
 				Controller.turnRight = false;
 			}
+			mouseSpeed = Math.abs(updatedX - oldX);
 			oldX = updatedX;
 		}
 	}

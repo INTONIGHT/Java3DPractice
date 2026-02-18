@@ -1,5 +1,7 @@
 package main.input;
 
+import main.Display;
+
 public class Controller {
 	public double x,y, z, rotation, xa, za, rotationa;
 	public static boolean turnLeft = false;
@@ -10,7 +12,7 @@ public class Controller {
 	public static boolean runAnim = false;
 	
 	public void tick(boolean forward,boolean back, boolean left, boolean right,boolean jump, boolean crouch,boolean run) {
-		double rotationSpeed = 0.025;
+		double rotationSpeed = 0.002 * Display.mouseSpeed;
 		double jumpHeight = 0.5;
 		double crouchHeight = 0.3;
 		//you could add a prone with around 0.8
@@ -41,13 +43,13 @@ public class Controller {
 		}
 		
 		if(turnLeft) {
-			rotationa -= rotationSpeed;
-			walk = true;
+				rotationa -= rotationSpeed;
+				walk = true;
 		}
 		
 		if(turnRight) {
-			rotationa += rotationSpeed;
-			walk = true;
+				rotationa += rotationSpeed;
+				walk = true;
 		}
 		if(jump) {
 			y += jumpHeight;
@@ -76,6 +78,8 @@ public class Controller {
 		if(!forward && !back && !left && !right && !turnLeft && !turnRight && !run) {
 			walk = false;
 		}
+		
+		
 		
 		xa += (xMove * Math.cos(rotation) + zMove * Math.sin(rotation)) * walkSpeed;
 		za += (zMove * Math.cos(rotation) - xMove * Math.sin(rotation)) * walkSpeed;
