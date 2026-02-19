@@ -16,6 +16,7 @@ public class Launcher extends JFrame{
 	private int height = 320;
 	private int button_width = 80;
 	private int button_height = 40;
+	private int screenMidPoint = (width/2) - (button_width / 2);
 	
 	
 	public Launcher() {
@@ -38,8 +39,24 @@ public class Launcher extends JFrame{
 	
 	private void drawButtons() {
 		play = new JButton("Play");
-		rplay = new Rectangle(20,50,button_width,button_height);
+		rplay = new Rectangle(screenMidPoint,50,button_width,button_height);
 		play.setBounds(rplay);
 		window.add(play);
+		
+		options = new JButton("Options");
+		roptions = new Rectangle(screenMidPoint,100,button_width,button_height);
+		options.setBounds(roptions);
+		window.add(options);
+		
+		help = new JButton("Help");
+		rhelp = new Rectangle(screenMidPoint,150,button_width,button_height);
+		help.setBounds(rhelp);
+		window.add(help);
+		
+		quit = new JButton("Quit");
+		rquit = new Rectangle(screenMidPoint,200,button_width,button_height);
+		quit.setBounds(rquit);
+		window.add(quit);
+		
 	}
 }
