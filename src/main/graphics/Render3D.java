@@ -106,6 +106,16 @@ public class Render3D extends Render {
 					if(!east.solid) {
 						renderWalls(xBlock + 1, xBlock+1,zBlock,zBlock+1,0);
 					}
+					if(!south.solid) {
+						renderWalls(xBlock + 1, xBlock-1,zBlock+1,zBlock+1,0);
+					}
+				}else {
+					if(east.solid) {
+						renderWalls(xBlock+1,xBlock+1,zBlock+1,zBlock,0);
+					}
+					if(south.solid) {
+						renderWalls(xBlock,xBlock+1,zBlock+1,zBlock+1,0);
+					}
 				}
 			}
 		}
@@ -118,8 +128,8 @@ public class Render3D extends Render {
 		double forwardCorrect = 0.0625;
 		double walkCorrect = -0.0625;
 		
-		double xcLeft = ((xLeft) - (right * rightCorrect )) * 2;
-		double zcLeft = ((zDistanceLeft) - (forward * forwardCorrect)) * 2;
+		double xcLeft = ((xLeft / 2) - (right * rightCorrect )) * 2;
+		double zcLeft = ((zDistanceLeft / 2) - (forward * forwardCorrect)) * 2;
 		
 		double rotLeftSideX = xcLeft * cosine - zcLeft * sine;
 		//top left corner
@@ -128,8 +138,8 @@ public class Render3D extends Render {
 		double yCornerBL = ((+0.5 - yHeight) - (-up * upCorrect + (walking * walkCorrect))) * 2;
 		double rotLeftSideZ = zcLeft * cosine + xcLeft * sine;
 		
-		double xcRight = ((xRight) - (right * rightCorrect)) * 2;
-		double zcRight = ((zDistanceRight) - (forward * forwardCorrect)) * 2;
+		double xcRight = ((xRight / 2) - (right * rightCorrect)) * 2;
+		double zcRight = ((zDistanceRight / 2) - (forward * forwardCorrect)) * 2;
 		
 		double rotRightSideX = xcRight * cosine - zcRight * sine;
 		double yCornerTR = ((-yHeight)-(-up * upCorrect + (walking * walkCorrect))) *2;
@@ -137,10 +147,6 @@ public class Render3D extends Render {
 		
 		double rotRightSideZ = zcRight * cosine + xcRight * sine;
 		
-		//now we have our corner pins.
-		//left edge of the wall
-		double xPixelLeft = (rotLeftSideX / rotLeftSideZ * height + width / 2);
-		double xPixelRight = (rotRightSideX / rotRightSideZ * height + width / 2);
 		
 		double tex30 = 0;
 		double tex40 = 8;
@@ -160,15 +166,19 @@ public class Render3D extends Render {
 			
 		}
 		if(rotRightSideZ < clip) {
-			//this is an algorithim to correct the view
-			//cohen suthgerland algorithm. also line clipping is helpful to look up
+			
 			double clipAdjust = (clip - rotLeftSideZ) / (rotRightSideZ - rotLeftSideZ);
 			rotRightSideZ = rotLeftSideZ + (rotRightSideZ - rotLeftSideZ) * clipAdjust;
 			rotRightSideZ = rotLeftSideZ + (rotRightSideX - rotLeftSideX) * clipAdjust;
-			tex30 = tex30 + (tex40 - tex30) * clipAdjust;
+			tex40 = tex30 + (tex40 - tex30) * clipAdjust;
 			
 		}
-		
+		//cllipping needs to be done before this adjust as it changes what the rotleftside and right side are equal to
+		//now we have our corner pins.
+				//left edge of the wall
+		double xPixelLeft = (rotLeftSideX / rotLeftSideZ * height + width / 2);
+		double xPixelRight = (rotRightSideX / rotRightSideZ * height + width / 2);
+				
 		
 		if(xPixelLeft >= xPixelRight) {
 			return;
