@@ -10,6 +10,7 @@ import main.level.Level;
 public class Render3D extends Render {
 
 	public double[] zBuffer;
+	public double[] zBufferWall;
 	private double renderDistance = 5000;
 	private double forward,right,cosine,sine,up,walking;
 	
@@ -19,9 +20,14 @@ public class Render3D extends Render {
 		super(width, height);
 		zBuffer = new double[width * height];
 		// TODO Auto-generated constructor stub
+		zBufferWall = new double[width];
 	}
 
 	public void floor(Game game) {
+		for(int x =0;x<width;x++) {
+			zBufferWall[x] = 0;
+		}
+		
 		// double rotation = Math.sin(game.time / 40.0) * 0.5;
 		double rotation = game.controls.rotation;
 		 cosine = Math.cos(rotation);
@@ -94,7 +100,8 @@ public class Render3D extends Render {
 		}
 		
 		Level level = game.level;
-		int size = 5;
+		//controls size of how many walls are generated
+		int size = 20;
 		
 		for(int xBlock = -size; xBlock <= size; xBlock++) {
 			for(int zBlock = -size; zBlock<= size; zBlock ++) {
@@ -115,6 +122,30 @@ public class Render3D extends Render {
 					}
 					if(south.solid) {
 						renderWalls(xBlock,xBlock+1,zBlock+1,zBlock+1,0);
+					}
+				}
+			}
+		}
+		
+		for(int xBlock = -size; xBlock <= size; xBlock++) {
+			for(int zBlock = -size; zBlock<= size; zBlock ++) {
+				Block block = level.createBlock(xBlock, zBlock);
+				Block east = level.createBlock(xBlock + 1, zBlock);
+				Block south = level.createBlock(xBlock, zBlock + 1);
+				
+				if(block.solid) {
+					if(!east.solid) {
+						renderWalls(xBlock + 1, xBlock+1,zBlock,zBlock+1,0.5);
+					}
+					if(!south.solid) {
+						renderWalls(xBlock + 1, xBlock-1,zBlock+1,zBlock+1,0.5);
+					}
+				}else {
+					if(east.solid) {
+						renderWalls(xBlock+1,xBlock+1,zBlock+1,zBlock,0.5);
+					}
+					if(south.solid) {
+						renderWalls(xBlock,xBlock+1,zBlock+1,zBlock+1,0.5);
 					}
 				}
 			}
@@ -209,8 +240,13 @@ public class Render3D extends Render {
 		
 		for(int x = xPixelLeftInt; x < xPixelRightInt; x++) {
 			double pixelRotation = (x - xPixelLeft) / (xPixelRight - xPixelLeft);
+			double zWall = (tex1 + (tex2 - tex1) * pixelRotation);
+			if(zBufferWall[x] > zWall) {
+				continue;
+			}
 			
-			int xTexture = (int) ((tex3 + tex4 * pixelRotation) / (tex1 + (tex2 - tex1) * pixelRotation));
+			zBufferWall[x] = zWall;
+			int xTexture = (int) ((tex3 + tex4 * pixelRotation) / zWall);
 			
 			double yPixelTop = yPixelLeftTop + (yPixelRightTop - yPixelLeftTop) * pixelRotation;
 			double yPixelBottom = yPixelLeftBottom + (yPixelRightBottom - yPixelLeftBottom) * pixelRotation;
