@@ -3,13 +3,16 @@ package main;
 import java.awt.event.KeyEvent;
 
 import main.input.Controller;
+import main.level.Level;
 
 public class Game {
 	public int time;
 	public Controller controls;
+	public Level level;
 	
 	public Game() {
 		controls = new Controller();
+		level = new Level(20,20);
 	}
 	
 	public void tick(boolean[] key) {

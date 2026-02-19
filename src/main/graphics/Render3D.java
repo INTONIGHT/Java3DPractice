@@ -4,6 +4,8 @@ import java.util.Random;
 
 import main.Game;
 import main.input.Controller;
+import main.level.Block;
+import main.level.Level;
 
 public class Render3D extends Render {
 
@@ -91,7 +93,22 @@ public class Render3D extends Render {
 			}
 		}
 		
+		Level level = game.level;
+		int size = 5;
 		
+		for(int xBlock = -size; xBlock <= size; xBlock++) {
+			for(int zBlock = -size; zBlock<= size; zBlock ++) {
+				Block block = level.createBlock(xBlock, zBlock);
+				Block east = level.createBlock(xBlock + 1, zBlock);
+				Block south = level.createBlock(xBlock, zBlock + 1);
+				
+				if(block.solid) {
+					if(!east.solid) {
+						renderWalls(xBlock + 1, xBlock+1,zBlock,zBlock+1,0);
+					}
+				}
+			}
+		}
 	}
 	
 	public void renderWalls(double xLeft, double xRight, double zDistanceLeft,double zDistanceRight, double yHeight) {
