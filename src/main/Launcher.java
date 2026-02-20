@@ -22,6 +22,7 @@ public class Launcher extends JFrame{
 	protected int button_width = 80;
 	protected int button_height = 40;
 	private int screenMidPoint = (width/2) - (button_width / 2);
+	Configuration config = new Configuration();
 	
 	
 	public Launcher(int id ) {
@@ -78,6 +79,7 @@ public class Launcher extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				config.saveConfiguration("test", 1);
 				dispose();
 				new Options();
 			}
