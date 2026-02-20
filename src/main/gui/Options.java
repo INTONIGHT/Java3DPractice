@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 
+import main.Configuration;
 import main.Display;
 import main.Launcher;
 
@@ -16,6 +17,7 @@ public class Options extends Launcher{
 	private int height = 440;
 	private JButton OKButton;
 	private Rectangle rOKButton, rResolution;
+	Configuration config = new Configuration();
 	
 	
 	private Choice resolution = new Choice();
@@ -47,8 +49,23 @@ public class Options extends Launcher{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				Display.selection = resolution.getSelectedIndex();
-				//System.out.println(Display.selection);
+				int selection  = resolution.getSelectedIndex();
+				int w = 0;
+				int h = 0;
+				if(selection == 0) {
+					w = 640;
+					h = 480;
+				}
+				if(selection == 1 || selection == -1) {
+					w = 800;
+					h = 600;
+				}
+				if(selection == 2) {
+					w = 1024;
+					h = 768;
+				}
+				config.saveConfiguration("width", w);
+				config.saveConfiguration("height", h);
 				dispose();
 				new Launcher(0);
 			}

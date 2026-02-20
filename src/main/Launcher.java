@@ -79,7 +79,7 @@ public class Launcher extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				config.saveConfiguration("test", 1);
+				
 				dispose();
 				new Options();
 			}

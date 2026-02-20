@@ -20,7 +20,7 @@ public class Configuration {
 			//Output streams are used for writing data to a file input streams read data from a file
 			OutputStream write = new FileOutputStream(path);
 			properties.setProperty(key, Integer.toString(value));
-			//the comment can be null
+			//the comment can be null just lets you track what you were doing if you want
 			properties.storeToXML(write, "Resolution");
 		} catch(Exception e) {
 			e.printStackTrace();
