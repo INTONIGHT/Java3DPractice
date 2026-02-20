@@ -10,18 +10,21 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
+import main.gui.Options;
+
 public class Launcher extends JFrame{
-	private JPanel window = new JPanel();
+	protected JPanel window = new JPanel();
 	private JButton play, options,help,quit;
 	private Rectangle rplay,roptions,rhelp,rquit;
 	private int width = 240;
 	private int height = 320;
-	private int button_width = 80;
-	private int button_height = 40;
+	//variable is visible to class and any class that extends the class
+	protected int button_width = 80;
+	protected int button_height = 40;
 	private int screenMidPoint = (width/2) - (button_width / 2);
 	
 	
-	public Launcher() {
+	public Launcher(int id ) {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		}catch (Exception e) {
@@ -35,8 +38,10 @@ public class Launcher extends JFrame{
 		setResizable(false);
 		setVisible(true);
 		window.setLayout(null);
+		if(id == 0) {
+			drawButtons();
+		}
 		
-		drawButtons();
 	}
 	
 	private void drawButtons() {
@@ -64,6 +69,7 @@ public class Launcher extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				dispose();
 				new RunGame();
 			}
 		});
@@ -72,7 +78,8 @@ public class Launcher extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				System.out.println("options");
+				dispose();
+				new Options();
 			}
 		});
 		

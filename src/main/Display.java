@@ -182,7 +182,7 @@ public class Display extends Canvas implements Runnable{
 
 	//Handles the display and main loop
 	public static void main(String[] args) {
-		new Launcher();
+		new Launcher(0);
 		
 		
 	}
