@@ -33,8 +33,9 @@ import java.awt.image.DataBuffer;
 //export runnable jar file browse for a folder. hit finish then go to that folder 
 //you can use an application like launnch4j or any program to convert the jar file into a runnable .exe file
 public class Display extends Canvas implements Runnable{
-	public static final int WIDTH = 800;
-	public static final int HEIGHT = 600;
+	
+	public static int width = 800;
+	public static int height = 600;
 	public static final String TITLE = "Having Fun";
 	
 	private Thread thread;
@@ -48,6 +49,7 @@ public class Display extends Canvas implements Runnable{
 	private int updatedX = 0;
 	private int updatedY = 0;
 	private int fps;
+	public static int selection = 0;
 	
 	private int oldX = 0;
 	
@@ -55,12 +57,13 @@ public class Display extends Canvas implements Runnable{
 	
 	public Display() {
 		Dimension size = new Dimension(WIDTH,HEIGHT);
+		
 		setPreferredSize(size);
 		setMinimumSize(size);
 		setMaximumSize(size);
-		screen = new Screen(WIDTH,HEIGHT);
+		screen = new Screen(getGameWidth(),getGameHeight());
 		game = new Game();
-		img = new BufferedImage(WIDTH,HEIGHT, BufferedImage.TYPE_INT_RGB);
+		img = new BufferedImage(getGameWidth(),getGameHeight(), BufferedImage.TYPE_INT_RGB);
 		pixels = ((DataBufferInt) img.getRaster().getDataBuffer()).getData();
 		
 		
@@ -162,11 +165,12 @@ public class Display extends Canvas implements Runnable{
 		}
 		screen.render(game);
 		
-		for(int i =0 ; i<WIDTH*HEIGHT; i++) {
+		for(int i =0 ; i<getGameWidth() * getGameHeight(); i++) {
 			pixels[i] = screen.pixels[i];
 		}
 		Graphics g = buffStrat.getDrawGraphics();
-		g.drawImage(img, 0, 0, WIDTH, HEIGHT, null);
+		g.drawImage(img, 0, 0, getGameWidth(), getGameHeight(), null);
+		//System.out.println("gamewidth: " + getGameWidth() + "gameheight: " + getGameHeight());
 		g.setFont(new Font("Verdana",0,50));
 		g.setColor(Color.cyan);
 		
@@ -178,6 +182,34 @@ public class Display extends Canvas implements Runnable{
 	private void tick() {
 		// TODO Auto-generated method stub
 		game.tick(input.key);
+	}
+	
+	public static int getGameWidth() {
+		if(selection == 0 ) {
+			width = 640;
+		}
+		if(selection == 1 || selection == -1) {
+			width = 800;
+		}
+		if(selection == 2) {
+			width = 1024;
+		}
+		
+		return width;
+		
+	}
+	public static int getGameHeight() {
+		if(selection == 0 ) {
+			height = 480;
+		}
+		if(selection == 1 || selection == -1) {
+			height = 600;
+		}
+		if(selection == 2) {
+			height = 768;
+		}
+		
+		return height;
 	}
 
 	//Handles the display and main loop
