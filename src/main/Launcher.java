@@ -7,7 +7,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.UIManager;
 
 import main.gui.Options;
@@ -16,6 +18,8 @@ public class Launcher extends JFrame{
 	protected JPanel window = new JPanel();
 	private JButton play, options,help,quit;
 	private Rectangle rplay,roptions,rhelp,rquit;
+	
+	
 	private int width = 240;
 	private int height = 320;
 	//variable is visible to class and any class that extends the class

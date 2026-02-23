@@ -185,29 +185,13 @@ public class Display extends Canvas implements Runnable{
 	}
 	
 	public static int getGameWidth() {
-		if(selection == 0 ) {
-			width = 640;
-		}
-		if(selection == 1 || selection == -1) {
-			width = 800;
-		}
-		if(selection == 2) {
-			width = 1024;
-		}
+		
 		
 		return width;
 		
 	}
 	public static int getGameHeight() {
-		if(selection == 0 ) {
-			height = 480;
-		}
-		if(selection == 1 || selection == -1) {
-			height = 600;
-		}
-		if(selection == 2) {
-			height = 768;
-		}
+		
 		
 		return height;
 	}
