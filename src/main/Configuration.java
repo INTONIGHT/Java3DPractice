@@ -40,11 +40,16 @@ public class Configuration {
 			String height = properties.getProperty("height");
 			//System.out.println("width: " + width + " height: " + height);
 			setResolution(Integer.parseInt(width), Integer.parseInt(height));
-			
+			read.close();
 		}catch(FileNotFoundException e) {
-			
+			//basically if the file doesnt exist we want to just give it some default stuff
+			//then it should just try to load the persisted stuff;
+			saveConfiguration("width",800);
+			saveConfiguration("width",600);
+			loadConfiguration(path);
+			//e.printStackTrace();
 		}catch(IOException e) {
-			
+			e.printStackTrace();
 		}
 	}
 	
