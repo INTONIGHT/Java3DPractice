@@ -70,6 +70,7 @@ public class Launcher extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				config.loadConfiguration("src/settings/config.xml");
 				dispose();
 				new RunGame();
 			}
