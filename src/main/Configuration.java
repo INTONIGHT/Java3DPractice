@@ -38,13 +38,25 @@ public class Configuration {
 			properties.loadFromXML(read);
 			String width = properties.getProperty("width");
 			String height = properties.getProperty("height");
-			System.out.println("width: " + width + " height: " + height);
-			
+			//System.out.println("width: " + width + " height: " + height);
+			setResolution(Integer.parseInt(width), Integer.parseInt(height));
 			
 		}catch(FileNotFoundException e) {
 			
 		}catch(IOException e) {
 			
+		}
+	}
+	
+	public void setResolution(int width,int height) {
+		if(width == 640 && height == 480) {
+			Display.selection = 0;
+		}
+		if(width == 800 && height == 600) {
+			Display.selection = 1;
+		}
+		if(width == 1024 && height == 768) {
+			Display.selection = 2;
 		}
 	}
 }
