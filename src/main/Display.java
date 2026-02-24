@@ -131,12 +131,12 @@ public class Display extends Canvas implements Runnable{
 				}
 			}
 			if (ticked) {
-				render();
+				//render();
 				frames++;
 			}
-			render();
-			frames++;
-			
+			//render();
+			//frames++;
+			renderMenu();
 			
 			updatedX = InputHandler.mouseX;
 			updatedY = InputHandler.mouseY;
@@ -178,6 +178,20 @@ public class Display extends Canvas implements Runnable{
 		g.dispose();
 		buffStrat.show();
 	}
+	
+	private void renderMenu() {
+		// TODO Auto-generated method stub
+		BufferStrategy buffStrat = this.getBufferStrategy();
+		if(buffStrat == null) {
+			createBufferStrategy(3);
+			return;
+		}
+		Graphics g = buffStrat.getDrawGraphics();
+		g.setColor(Color.black);
+		g.fillRect(0, 0, 800, 400);
+		g.dispose();
+		buffStrat.show();
+	}
 
 	private void tick() {
 		// TODO Auto-generated method stub
@@ -198,7 +212,8 @@ public class Display extends Canvas implements Runnable{
 
 	//Handles the display and main loop
 	public static void main(String[] args) {
-		new Launcher(0);
+		Display display = new Display();
+		new Launcher(0,display);
 		
 		
 	}

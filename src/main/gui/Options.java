@@ -22,6 +22,7 @@ public class Options extends Launcher{
 	private JTextField tWidth, tHeight;
 	private JLabel lWidth, lHeight;
 	Configuration config = new Configuration();
+	
 	private int w = 0;
 	private int h = 0;
 	
@@ -29,7 +30,7 @@ public class Options extends Launcher{
 	private Choice resolution = new Choice();
 	
 	public Options() {
-		super(1); 
+		super(1, new Display()); 
 		setTitle("Options for the Game");
 		setSize(new Dimension(width,height));
 		setLocationRelativeTo(null);
@@ -75,7 +76,7 @@ public class Options extends Launcher{
 				config.saveConfiguration("width", parseWidth());
 				config.saveConfiguration("height", parseHeight());
 				dispose();
-				new Launcher(0);
+				new Launcher(0,new Display());
 			}
 		});
 	}

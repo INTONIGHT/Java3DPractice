@@ -20,8 +20,8 @@ public class Launcher extends JFrame{
 	private Rectangle rplay,roptions,rhelp,rquit;
 	
 	
-	private int width = 240;
-	private int height = 320;
+	private int width = 800;
+	private int height = 400;
 	//variable is visible to class and any class that extends the class
 	protected int button_width = 80;
 	protected int button_height = 40;
@@ -29,16 +29,20 @@ public class Launcher extends JFrame{
 	Configuration config = new Configuration();
 	
 	
-	public Launcher(int id ) {
+	public Launcher(int id,Display display ) {
+		
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		setUndecorated(true);
 		setTitle("Game Launcher");
 		setSize(new Dimension(width,height));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		getContentPane().add(window);
+		add(display);
+		//getContentPane().add(window);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
@@ -46,6 +50,8 @@ public class Launcher extends JFrame{
 		if(id == 0) {
 			drawButtons();
 		}
+		display.start();
+		repaint();
 		
 	}
 	
