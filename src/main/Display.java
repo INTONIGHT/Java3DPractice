@@ -11,6 +11,7 @@ import java.awt.Toolkit;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import main.graphics.Render;
@@ -124,19 +125,21 @@ public class Display extends Canvas implements Runnable{
 				tickCount ++;
 				if(tickCount % 60 == 0) {
 					//if you want to display fps
-					//System.out.println(frames + " fps");
+					System.out.println(frames + " fps");
 					fps = frames;
 					previousTime += 1000;
 					frames = 0;
 				}
+				if (ticked) {
+					//render();
+					frames++;
+					renderMenu();
+				}
 			}
-			if (ticked) {
-				//render();
-				frames++;
-			}
+			
 			//render();
 			//frames++;
-			renderMenu();
+			
 			
 			updatedX = InputHandler.mouseX;
 			updatedY = InputHandler.mouseY;
@@ -189,6 +192,16 @@ public class Display extends Canvas implements Runnable{
 		Graphics g = buffStrat.getDrawGraphics();
 		g.setColor(Color.black);
 		g.fillRect(0, 0, 800, 400);
+		try {
+			g.drawImage(ImageIO.read(Display.class.getResource("/textures/backgroundPhoto.jpg")),0,0,800,400,null);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		g.setColor(Color.WHITE);
+		g.setFont(new Font("Verdana",0,30));
+		g.drawString("Play",700,110);
+		
 		g.dispose();
 		buffStrat.show();
 	}
