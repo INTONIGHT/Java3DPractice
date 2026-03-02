@@ -14,7 +14,7 @@ import javax.swing.UIManager;
 
 import main.gui.Options;
 
-public class Launcher extends JFrame{
+public class Launcher extends JFrame implements Runnable{
 	protected JPanel window = new JPanel();
 	private JButton play, options,help,quit;
 	private Rectangle rplay,roptions,rhelp,rquit;
@@ -26,7 +26,9 @@ public class Launcher extends JFrame{
 	protected int button_width = 80;
 	protected int button_height = 40;
 	private int screenMidPoint = (width/2) - (button_width / 2);
+	private boolean running = false;
 	Configuration config = new Configuration();
+	Thread thread;
 	
 	
 	public Launcher(int id,Display display ) {
@@ -50,8 +52,14 @@ public class Launcher extends JFrame{
 		if(id == 0) {
 			drawButtons();
 		}
+		startMenu();
 		display.start();
 		repaint();
+		
+	}
+	
+	public void updateFrame() {
+		setLocation(500,200);
 		
 	}
 	
@@ -112,5 +120,28 @@ public class Launcher extends JFrame{
 			}
 		});
 		
+	}
+	public void startMenu() {
+		running = true;
+		thread = new Thread(this,"menu");
+		thread.start();
+		
+	}
+	
+	public void stopMenu() {
+		try {
+			thread.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		while(running) {
+			updateFrame();
+		}
 	}
 }

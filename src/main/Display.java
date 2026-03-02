@@ -53,6 +53,7 @@ public class Display extends Canvas implements Runnable{
 	public static int selection = 0;
 	
 	private int oldX = 0;
+	//Launcher launcher = new Launcher(0,this);
 	
 	public static int mouseSpeed;
 	
@@ -82,7 +83,7 @@ public class Display extends Canvas implements Runnable{
 			return;
 		}else {
 			running = true;
-			thread = new Thread(this);
+			thread = new Thread(this,"game");
 			thread.start();
 		}
 	}
@@ -109,6 +110,7 @@ public class Display extends Canvas implements Runnable{
 		double secondsPerTick = 1 / 60.0;
 		int tickCount = 0;
 		boolean ticked = false;
+		requestFocus();
 		
 		while(running) {
 			long currentTime = System.nanoTime();
@@ -116,7 +118,7 @@ public class Display extends Canvas implements Runnable{
 			previousTime = currentTime;
 			unprocessedSeconds += passedTime / 1000000000.0;
 			//should let you automatically move on screen
-			requestFocus();
+			//launcher.updateFrame();
 			
 			while(unprocessedSeconds > secondsPerTick) {
 				tick();
